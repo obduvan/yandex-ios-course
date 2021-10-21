@@ -231,7 +231,7 @@ class FileCache {
 //let cachePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
 
 //Пример тестирования:
-//
+
 //var t1 = TodoItem(id: "1", text: "someText", importance: Importance.notImportant, deadLine: Date())
 //var t2 = TodoItem(id: "2", text: "someTextsadas", importance: Importance.regular,deadLine: Date(), color: UIColor.black)
 //
@@ -239,5 +239,7 @@ class FileCache {
 //fileCache.addItem(todoItem: t1)
 //fileCache.addItem(todoItem: t2)
 //fileCache.saveItems()
+//fileCache.deleteItem(id: "1")
+//fileCache.deleteItem(id: "2")
 //fileCache.loadItems()
 //fileCache.todoItems.forEach({print($0)})
