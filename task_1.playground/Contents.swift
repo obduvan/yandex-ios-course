@@ -2,13 +2,12 @@ import Foundation
 import UIKit
 
 
-struct TodoItem{
+struct TodoItem {
     let id: String
     let text: String
     let importance: Importance
     let deadLine: Date?
     let color: UIColor?
-    
     public init(id: String = UUID().uuidString,
                 text: String,
                 importance: Importance,
@@ -83,60 +82,39 @@ extension TodoItem {
             
             var hexColor: String = ""
             
-            if let deadLine: Date = deadLine {
+            if let deadLine: Date = self.deadLine {
                 let strDeadLine = String(deadLine.timeIntervalSince1970)
                 dict.updateValue(strDeadLine, forKey: "deadLine")
             }
-            
             if let hxc: String = color?.getHex() {
                 hexColor = hxc
             }
             
             dict.updateValue(hexColor, forKey: "color")
             
-            do {
-                let data = try JSONSerialization.data(withJSONObject: dict, options: [])
-                return data
-            }
-            catch let error {
-                print(error.localizedDescription)
-                return Data()
-            }
+            return dict
         }
-    }
-    
-    static func parseDict(dict: [String: Any]) -> TodoItem? {
-        guard let id = (dict["id"] as? String) else { return nil }
-        guard let text = (dict["text"] as? String) else { return nil }
-        
-        let importance = dict["importance"] as? Importance ?? .regular
-        var deadLine: Date? = nil
-        var color: UIColor? = nil
-        
-        if let deadLineDouble = dict["deadLine"] as? Double {
-            deadLine = Date(timeIntervalSince1970: deadLineDouble)
-        }
-        
-        if let colorStr = (dict["color"] as? String) {
-            color = UIColor(hex: colorStr)
-        }
-        
-        return TodoItem(id: id, text: text, importance: importance, deadLine: deadLine, color: color)
     }
     
     static func parse(json: Any) -> TodoItem? {
-        if let data = json as? Data{
-            do {
-                guard let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return nil }
-                return TodoItem.parseDict(dict: dict)
+        if let dict = json as? [String: Any] {
+            guard let id = (dict["id"] as? String) else { return nil }
+            guard let text = (dict["text"] as? String) else { return nil }
+                
+            let importance = Importance(rawValue: dict["importance"] as? String ?? Importance.regular.rawValue) ?? .regular
+            var deadLine: Date? = nil
+            var color: UIColor? = nil
+            
+            if let deadLineDouble = (dict["deadLine"] as? NSString)?.doubleValue {
+                deadLine = Date(timeIntervalSince1970: deadLineDouble)
             }
-            catch let error {
-                print("Failed to parse data. \(error)")
-                return nil
+            
+            if let colorStr = (dict["color"] as? String) {
+                color = UIColor(hex: colorStr)
             }
-        }
-        else if let dict = json as? [String: Any] {
-            return TodoItem.parseDict(dict: dict)
+            
+            return TodoItem(id: id, text: text, importance: importance, deadLine: deadLine, color: color)
+            
         }
         else {
             print("Wrong argument type.")
@@ -185,16 +163,7 @@ class FileCache {
                     return
                 }
             }
-            
-            var itemsArray = [[String: Any]]()
-            
-            for item in todoItems.values{
-                guard let dataItem = item.json as? Data else { continue }
-                if let dict = try JSONSerialization.jsonObject(with: dataItem, options: []) as? [String: Any] {
-                    itemsArray.append(dict)
-                }
-            }
-            let itemsData = try JSONSerialization.data(withJSONObject: itemsArray, options: [])
+            let itemsData = try JSONSerialization.data(withJSONObject: self.todoItems.values.map({$0.json}), options: [])
             let fileManager = FileManager.default
             
             fileManager.createFile(atPath: getItemFilePath(dirURL: dirURL), contents: itemsData, attributes: nil)
@@ -232,8 +201,8 @@ class FileCache {
 
 //Пример тестирования:
 
-//var t1 = TodoItem(id: "1", text: "someText", importance: Importance.notImportant, deadLine: Date())
-//var t2 = TodoItem(id: "2", text: "someTextsadas", importance: Importance.regular,deadLine: Date(), color: UIColor.black)
+//let t1 = TodoItem(id: "1", text: "someText", importance: Importance.notImportant, deadLine: Date(timeIntervalSinceNow: 322))
+//let t2 = TodoItem(id: "2", text: "someTextsadas", importance: Importance.regular, deadLine: Date(timeIntervalSince1970: 31312321321.0), color: UIColor.black)
 //
 //var fileCache = FileCache()
 //fileCache.addItem(todoItem: t1)
