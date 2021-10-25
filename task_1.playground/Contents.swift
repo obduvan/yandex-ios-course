@@ -77,21 +77,16 @@ extension TodoItem {
         get{
             var dict: [String: Any] = ["id": id, "text": text]
             if importance != .regular {
-                dict.updateValue(importance.rawValue, forKey: "importance")
+                dict["importance"] = importance.rawValue
             }
-            
-            var hexColor: String = ""
-            
-            if let deadLine: Date = self.deadLine {
-                let strDeadLine = String(deadLine.timeIntervalSince1970)
-                dict.updateValue(strDeadLine, forKey: "deadLine")
+                        
+            if let deadLine = self.deadLine {
+                dict["deadLine"] = deadLine.timeIntervalSince1970
             }
-            if let hxc: String = color?.getHex() {
-                hexColor = hxc
+            if let hexcolor = color?.getHex() {
+                dict["color"] = hexcolor
             }
-            
-            dict.updateValue(hexColor, forKey: "color")
-            
+                        
             return dict
         }
     }
@@ -105,7 +100,7 @@ extension TodoItem {
             var deadLine: Date? = nil
             var color: UIColor? = nil
             
-            if let deadLineDouble = (dict["deadLine"] as? NSString)?.doubleValue {
+            if let deadLineDouble = dict["deadLine"] as? Double {
                 deadLine = Date(timeIntervalSince1970: deadLineDouble)
             }
             
@@ -132,6 +127,7 @@ class FileCache {
     }
     
     func addItem(todoItem: TodoItem) {
+        self.todoItems[todoItem.id] = todoItem
         self.todoItems.updateValue(todoItem, forKey: todoItem.id)
     }
     
