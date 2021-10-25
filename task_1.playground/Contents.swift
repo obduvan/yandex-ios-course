@@ -128,7 +128,6 @@ class FileCache {
     
     func addItem(todoItem: TodoItem) {
         self.todoItems[todoItem.id] = todoItem
-        self.todoItems.updateValue(todoItem, forKey: todoItem.id)
     }
     
     func deleteItem(id: String) {
