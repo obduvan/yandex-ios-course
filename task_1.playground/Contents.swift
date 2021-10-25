@@ -143,7 +143,7 @@ class FileCache {
         return dirURL.appendingPathComponent(Date().description).path
     }
     
-    private var getCachePath: URL? {
+    private var cachePath: URL? {
         get {
             let path = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
             guard let pathCache = path.first else { return nil }
@@ -154,7 +154,7 @@ class FileCache {
     
     func saveItems() {
         do {
-            guard let dirURL = self.getCachePath else { return }
+            guard let dirURL = self.cachePath else { return }
             
             var isDir: ObjCBool = true
             if !FileManager.default.fileExists(atPath: dirURL.path, isDirectory: &isDir){
@@ -175,7 +175,7 @@ class FileCache {
     
     func loadItems() {
         do {
-            guard let cachePath = self.getCachePath else { return }
+            guard let cachePath = self.cachePath else { return }
             let files = try FileManager.default.contentsOfDirectory(atPath: cachePath.path)
             
             for file in files {
