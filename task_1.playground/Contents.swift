@@ -58,7 +58,7 @@ extension UIColor {
         self.init(red: r, green: g, blue: b, alpha: a)
     }
     
-    func getHex() -> String {
+    var hexColor: String {
         var r,g,b,a: CGFloat
         r = 0
         g = 0
@@ -83,7 +83,7 @@ extension TodoItem {
             if let deadLine = self.deadLine {
                 dict["deadLine"] = deadLine.timeIntervalSince1970
             }
-            if let hexcolor = color?.getHex() {
+            if let hexcolor = color?.hexColor {
                 dict["color"] = hexcolor
             }
                         
