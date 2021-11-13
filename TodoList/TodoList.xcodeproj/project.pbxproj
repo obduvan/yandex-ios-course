@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22309CF1274035880045BA9D /* Task2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22309CF0274035880045BA9D /* Task2.swift */; };
 		22838917273EAB34006F27A5 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22838916273EAB34006F27A5 /* TodoItem.swift */; };
 		2283891B273EABE1006F27A5 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2283891A273EABE1006F27A5 /* Importance.swift */; };
 		22838926273EAD5C006F27A5 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22838925273EAD5C006F27A5 /* FileCache.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		21193A85E333F50FBEC8FEF7 /* Pods_TodoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		22309CF0274035880045BA9D /* Task2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task2.swift; sourceTree = "<group>"; };
 		22838916273EAB34006F27A5 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		2283891A273EABE1006F27A5 /* Importance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importance.swift; sourceTree = "<group>"; };
 		22838925273EAD5C006F27A5 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
@@ -116,6 +118,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22309CE927402F900045BA9D /* task_2 */ = {
+			isa = PBXGroup;
+			children = (
+				22838933273EF0DB006F27A5 /* MemoryLeakClasses.swift */,
+				22309CF0274035880045BA9D /* Task2.swift */,
+			);
+			path = task_2;
+			sourceTree = "<group>";
+		};
 		22838915273EAAE1006F27A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +196,7 @@
 		22A076F5273E9F6300DBA61D /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				22309CE927402F900045BA9D /* task_2 */,
 				22838924273EAD4D006F27A5 /* Data */,
 				2283891D273EAC11006F27A5 /* Extensions */,
 				22838915273EAAE1006F27A5 /* Model */,
@@ -195,7 +207,6 @@
 				22A076FF273E9F6400DBA61D /* Assets.xcassets */,
 				22A07701273E9F6400DBA61D /* LaunchScreen.storyboard */,
 				22A07704273E9F6400DBA61D /* Info.plist */,
-				22838933273EF0DB006F27A5 /* MemoryLeakClasses.swift */,
 			);
 			path = TodoList;
 			sourceTree = "<group>";
@@ -415,6 +426,7 @@
 				2283892A273EB2DE006F27A5 /* UIColor+Hex.swift in Sources */,
 				22A076F7273E9F6300DBA61D /* AppDelegate.swift in Sources */,
 				2283891B273EABE1006F27A5 /* Importance.swift in Sources */,
+				22309CF1274035880045BA9D /* Task2.swift in Sources */,
 				22838917273EAB34006F27A5 /* TodoItem.swift in Sources */,
 				22A076F9273E9F6300DBA61D /* SceneDelegate.swift in Sources */,
 				2283892E273EB345006F27A5 /* TodoItem+Serializing.swift in Sources */,
