@@ -12,7 +12,6 @@ import CocoaLumberjack
 
 extension UIColor {
      convenience init?(hex: String) {
-        DDLog.add(DDOSLogger.sharedInstance)
         DDLogDebug("Started to create UIColor from hex.")
 
         var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

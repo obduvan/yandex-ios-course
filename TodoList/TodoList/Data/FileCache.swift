@@ -13,7 +13,6 @@ class FileCache {
     private(set) var todoItems: [String: TodoItem]
     
     init() {
-        DDLog.add(DDOSLogger.sharedInstance)
         self.todoItems = [:]
     }
     
