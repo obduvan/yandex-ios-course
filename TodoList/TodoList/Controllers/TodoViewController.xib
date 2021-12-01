@@ -5,18 +5,22 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoViewController" customModule="TodoList" customModuleProvider="target">
             <connections>
+                <outlet property="colorsStackView" destination="fR9-RP-pmY" id="lYF-us-bFg"/>
                 <outlet property="dateDivider" destination="g59-RC-4H1" id="fy5-jd-xQb"/>
-                <outlet property="dateLabel" destination="d05-Gl-xoU" id="msY-pq-J65"/>
-                <outlet property="datePickerView" destination="0iQ-L1-A1G" id="DeA-xW-cEK"/>
-                <outlet property="datePicket" destination="Sx5-nz-CAI" id="fyc-19-TUO"/>
+                <outlet property="dateLabel" destination="d05-Gl-xoU" id="rDM-EE-JQP"/>
+                <outlet property="datePicker" destination="Sx5-nz-CAI" id="fyc-19-TUO"/>
+                <outlet property="datePickerView" destination="0iQ-L1-A1G" id="jPh-3D-scE"/>
+                <outlet property="deletingButton" destination="apH-Id-4uM" id="Eo9-Zc-KdE"/>
                 <outlet property="scrollView" destination="AR2-5u-fC0" id="q6U-Zt-oMH"/>
                 <outlet property="todoDescription" destination="rUe-B4-TS8" id="GWz-3v-FGR"/>
+                <outlet property="todoDescriptionView" destination="rUe-B4-TS8" id="vXt-Zw-yIC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -50,11 +54,11 @@
                         </button>
                     </subviews>
                 </stackView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AR2-5u-fC0">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="AR2-5u-fC0">
                     <rect key="frame" x="15" y="104" width="398" height="788"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="u9Y-X6-zkf" userLabel="mainStack">
-                            <rect key="frame" x="0.0" y="0.0" width="398" height="333"/>
+                            <rect key="frame" x="0.0" y="0.0" width="398" height="441"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" directionalLockEnabled="YES" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rUe-B4-TS8" userLabel="TodoDescriptionView" customClass="TodoDescriptionView" customModule="TodoList" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="398" height="130"/>
@@ -148,7 +152,7 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <locale key="locale" localeIdentifier="ru"/>
                                                     <connections>
-                                                        <action selector="datePickerChanged:" destination="-1" eventType="valueChanged" id="LjT-Oq-E7n"/>
+                                                        <action selector="datePickerChanged:" destination="-1" eventType="valueChanged" id="yIw-TO-x6k"/>
                                                     </connections>
                                                 </datePicker>
                                             </subviews>
@@ -172,15 +176,117 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fR9-RP-pmY" userLabel="Colors" customClass="TodoColorsView" customModule="TodoList" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="283" width="398" height="90"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VqO-Tp-1GT">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="90"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nDN-xY-zYB">
+                                                    <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="5" id="6GU-6m-opt"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVK-bZ-Kpe">
+                                                    <rect key="frame" x="0.0" y="15" width="127.33333333333333" height="75"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="butFirstClicked:" destination="fR9-RP-pmY" eventType="touchUpInside" id="0IS-mD-P0O"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="T6x-pP-8AT">
+                                            <rect key="frame" x="135.33333333333334" y="0.0" width="127.33333333333334" height="90"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RzW-4H-iFS">
+                                                    <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="5" id="Q9R-Od-qIu"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItT-o6-8OY">
+                                                    <rect key="frame" x="0.0" y="15" width="127.33333333333333" height="75"/>
+                                                    <color key="backgroundColor" red="0.36078431372549019" green="0.54509803921568623" blue="0.6588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="butSecondClicked:" destination="fR9-RP-pmY" eventType="touchUpInside" id="noF-hW-3HO"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ugc-bN-u0e">
+                                            <rect key="frame" x="270.66666666666669" y="0.0" width="127.33333333333331" height="90"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jeX-iY-GXn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="5" id="HL0-2q-GgE"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PgJ-fQ-9aJ">
+                                                    <rect key="frame" x="0.0" y="15" width="127.33333333333333" height="75"/>
+                                                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="butThirdClicked:" destination="fR9-RP-pmY" eventType="touchUpInside" id="qO5-An-rQq"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="90" id="b23-gK-fBl"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="firstLine" destination="nDN-xY-zYB" id="Z1W-2S-aD9"/>
+                                        <outlet property="secondLine" destination="RzW-4H-iFS" id="v9z-YO-ZRQ"/>
+                                        <outlet property="thirdLine" destination="jeX-iY-GXn" id="g30-Zh-MNc"/>
+                                    </connections>
+                                </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apH-Id-4uM">
-                                    <rect key="frame" x="0.0" y="283" width="398" height="50"/>
+                                    <rect key="frame" x="0.0" y="391" width="398" height="50"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="IqR-AO-fCd"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <color key="tintColor" systemColor="opaqueSeparatorColor"/>
-                                    <state key="normal" title="Удалить"/>
+                                    <state key="normal" title="Удалить">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                             <integer key="value" value="10"/>
@@ -238,6 +344,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
