@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol DescriptionViewDelegate {
-    func setDescription(description: String)
+    func setDescription(_ description: String)
 }
 
 
@@ -66,10 +66,9 @@ class TodoDescriptionView: UITextView, UITextViewDelegate {
         }
         else{
             descriptionTodo = textView.text
-
         }
         
-        descriptionDelegate?.setDescription(description: descriptionTodo)
+        descriptionDelegate?.setDescription(descriptionTodo)
         textView.resignFirstResponder()
     }
     

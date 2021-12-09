@@ -7,24 +7,24 @@
 
 import UIKit
 
-class TodoViewController: UIViewController {
+final class TodoViewController: UIViewController {
     
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var todoDescription: UITextView!
+    @IBOutlet private weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var todoDescription: UITextView!
     
-    @IBOutlet weak var datePickerView: UIView!
-    @IBOutlet weak var dateDivider: UIView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var deletingButton: UIButton!
+    @IBOutlet private weak var datePickerView: UIView!
+    @IBOutlet private weak var dateDivider: UIView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var deletingButton: UIButton!
     
-    @IBOutlet weak var colorsStackView: TodoColorsView!
-    @IBOutlet weak var todoDescriptionView: TodoDescriptionView!
+    @IBOutlet private weak var colorsStackView: TodoColorsView!
+    @IBOutlet private weak var todoDescriptionView: TodoDescriptionView!
 
     
     private let keyboardIndent: CGFloat = 30
     private var chosedColor: UIColor = .white
-    private var DescriptionTodo: String = ""
+    private var descriptionTodo: String = ""
     private let deletingButtonStateOn: UIColor = .red
     private let deletingButtonStateOff: UIColor = .lightGray
 
@@ -36,7 +36,7 @@ class TodoViewController: UIViewController {
         colorsStackView.delegate = self
         todoDescriptionView.descriptionDelegate = self
         
-        dateLabel.text = getFormatData(date: datePicker)
+        dateLabel.text = formatDate(datePicker)
     }
 
     @IBAction func dateClicked(_ sender: Any) {
@@ -58,25 +58,19 @@ class TodoViewController: UIViewController {
     
     @IBAction func datePickerChanged(_ sender: UIDatePicker) {
 
-        let dateString = self.getFormatData(date: sender)
+        let dateString = self.formatDate(sender)
         setDateLabel(dateString: dateString)
     }
     
-    private func getFormatData(date: UIDatePicker) -> String {
+    private func formatDate(_ date: UIDatePicker) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru_RU")
         dateFormatter.dateFormat = "d MMMM YYYY"
         return dateFormatter.string(from: date.date)
-        
     }
     
     private func setDateLabelState(close: Bool) {
-        if close {
-            self.dateLabel.isHidden = true
-        }
-        else {
-            self.dateLabel.isHidden = false
-        }
+        self.dateLabel.isHidden = close
     }
     
     private func setDateLabel(dateString: String) {
@@ -91,7 +85,7 @@ class TodoViewController: UIViewController {
     }
     
     private func changeButtonDeletingState() {
-        if DescriptionTodo.isEmpty{
+        if descriptionTodo.isEmpty{
             self.deletingButton.setTitleColor(deletingButtonStateOff, for: .normal)
         }
         else {
@@ -111,9 +105,8 @@ extension TodoViewController: ColorsViewDelegate {
 
 
 extension TodoViewController: DescriptionViewDelegate {
-    func setDescription(description: String) {
-        
-        self.DescriptionTodo = description
+    func setDescription(_ description: String) {
+        self.descriptionTodo = description
         self.changeButtonDeletingState()
     }
 }
