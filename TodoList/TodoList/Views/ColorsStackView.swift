@@ -12,11 +12,13 @@ protocol ColorsViewDelegate {
     func setChosedColor(color: UIColor)
 }
 
-class TodoColorsView: UIStackView {
+class ColorsStackView: UIStackView {
     
     @IBOutlet weak var firstLine: UIView!
     @IBOutlet weak var secondLine: UIView!
     @IBOutlet weak var thirdLine: UIView!
+    @IBOutlet weak var secondButton: UIButton!
+    @IBOutlet weak var thirdButton: UIButton!
     
     private let firstLineColor = UIColor.white
     private let secondLineColor = UIColor.init(red: 92/255, green: 139/255, blue: 168/255, alpha: 1)
@@ -25,6 +27,18 @@ class TodoColorsView: UIStackView {
     private let highlightDuration: TimeInterval = 0.25
     
     var delegate: ColorsViewDelegate?
+    
+    
+    func initColorLines(_ color: UIColor){
+    switch color {
+        case thirdLineColor:
+            showLines(line: thirdLine, color: color)
+        case secondLineColor:
+            showLines(line: secondLine, color: color)
+        default:
+            showLines(line: firstLine, color: .white)
+        }
+    }
     
     @IBAction func butFirstClicked(_ sender: UIButton) {
         UIView.animate(withDuration: highlightDuration) {
@@ -47,7 +61,7 @@ class TodoColorsView: UIStackView {
         }
     }
     
-    private func showLines(line: UIView, color: UIColor) {
+     private func showLines(line: UIView, color: UIColor) {
         self.hideLines()
         line.backgroundColor = color
         
