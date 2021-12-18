@@ -14,15 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        //        DDLog.add(DDOSLogger.sharedInstance)
+        DDLog.add(DDOSLogger.sharedInstance)
         
- 
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let itemsController = ItemsViewController()
-     
-//        let navigationController = UINavigationController(rootViewController: itemsController)
-        window?.rootViewController = itemsController
+        let modelData = TestModel()
+        let itemsController = ItemsViewController(modelData)
+        
+        let navigationController = UINavigationController(rootViewController: itemsController)
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
         return true
