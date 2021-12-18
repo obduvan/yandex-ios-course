@@ -16,11 +16,11 @@
                 <outlet property="dateDivider" destination="g59-RC-4H1" id="fy5-jd-xQb"/>
                 <outlet property="dateLabel" destination="d05-Gl-xoU" id="rDM-EE-JQP"/>
                 <outlet property="datePicker" destination="Sx5-nz-CAI" id="fyc-19-TUO"/>
-                <outlet property="datePickerView" destination="0iQ-L1-A1G" id="jPh-3D-scE"/>
+                <outlet property="dateSwitcher" destination="amc-xj-PfA" id="ksD-3n-Nas"/>
                 <outlet property="deletingButton" destination="apH-Id-4uM" id="Eo9-Zc-KdE"/>
+                <outlet property="importanceSwitcher" destination="eGm-ur-UqZ" id="PTE-vQ-aea"/>
                 <outlet property="scrollView" destination="AR2-5u-fC0" id="q6U-Zt-oMH"/>
-                <outlet property="todoDescription" destination="rUe-B4-TS8" id="GWz-3v-FGR"/>
-                <outlet property="todoDescriptionView" destination="rUe-B4-TS8" id="vXt-Zw-yIC"/>
+                <outlet property="todoDescriptionView" destination="rUe-B4-TS8" id="F3k-1k-m3o"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -29,33 +29,8 @@
             <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="center" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Zs9-dv-NGF" userLabel="toolbar">
-                    <rect key="frame" x="15" y="59" width="398" height="30"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mbg-4O-gIQ">
-                            <rect key="frame" x="0.0" y="0.0" width="71" height="30"/>
-                            <state key="normal" title="Отменить"/>
-                            <connections>
-                                <action selector="buttonCloseClocked:" destination="-1" eventType="touchUpInside" id="MS1-dc-jFc"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дело" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNV-Xg-b1W">
-                            <rect key="frame" x="175.66666666666666" y="5" width="40.666666666666657" height="20.333333333333332"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgP-kB-ppv">
-                            <rect key="frame" x="321" y="0.0" width="77" height="30"/>
-                            <state key="normal" title="Сохранить"/>
-                            <connections>
-                                <action selector="buttonCloseClocked:" destination="-1" eventType="touchUpInside" id="NdW-As-06O"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                </stackView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="AR2-5u-fC0">
-                    <rect key="frame" x="15" y="104" width="398" height="788"/>
+                    <rect key="frame" x="15" y="59" width="398" height="833"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="u9Y-X6-zkf" userLabel="mainStack">
                             <rect key="frame" x="0.0" y="0.0" width="398" height="441"/>
@@ -99,6 +74,9 @@
                                                         <segment title="" image="star" catalog="system"/>
                                                         <segment title="" image="star.fill" catalog="system"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="switchImportance:" destination="-1" eventType="valueChanged" id="ypS-RM-iIu"/>
+                                                    </connections>
                                                 </segmentedControl>
                                             </subviews>
                                         </stackView>
@@ -113,16 +91,16 @@
                                             <rect key="frame" x="12" y="74" width="374" height="31"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="right" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6d1-3I-PGz">
-                                                    <rect key="frame" x="0.0" y="5.3333333333333144" width="90.333333333333329" height="20.333333333333332"/>
+                                                    <rect key="frame" x="0.0" y="5.3333333333333144" width="90.666666666666671" height="20.333333333333332"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сделать до" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyQ-kA-vyM">
-                                                            <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="20.333333333333332"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="90.666666666666671" height="20.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d05-Gl-xoU" userLabel="Date">
-                                                            <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="0.0"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="90.666666666666671" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" name="AccentColor"/>
                                                             <nil key="highlightedColor"/>
@@ -132,7 +110,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="amc-xj-PfA">
                                                     <rect key="frame" x="325" y="0.0" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="dateClicked:" destination="-1" eventType="valueChanged" id="7du-UY-rkr"/>
+                                                        <action selector="openDatePicker:" destination="-1" eventType="valueChanged" id="7du-UY-rkr"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -144,26 +122,14 @@
                                                 <constraint firstAttribute="height" constant="1" id="oW8-yi-1G7"/>
                                             </constraints>
                                         </view>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0iQ-L1-A1G" userLabel="DatePickerView">
+                                        <datePicker hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Sx5-nz-CAI">
                                             <rect key="frame" x="12" y="105" width="374" height="79"/>
-                                            <subviews>
-                                                <datePicker opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Sx5-nz-CAI">
-                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="79"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    <locale key="locale" localeIdentifier="ru"/>
-                                                    <connections>
-                                                        <action selector="datePickerChanged:" destination="-1" eventType="valueChanged" id="yIw-TO-x6k"/>
-                                                    </connections>
-                                                </datePicker>
-                                            </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <constraints>
-                                                <constraint firstItem="Sx5-nz-CAI" firstAttribute="leading" secondItem="0iQ-L1-A1G" secondAttribute="leading" id="3Y0-wj-AaV"/>
-                                                <constraint firstAttribute="trailing" secondItem="Sx5-nz-CAI" secondAttribute="trailing" id="V6y-9g-eDg"/>
-                                                <constraint firstItem="Sx5-nz-CAI" firstAttribute="top" secondItem="0iQ-L1-A1G" secondAttribute="top" id="Wnu-9O-RUk"/>
-                                                <constraint firstItem="Sx5-nz-CAI" firstAttribute="centerY" secondItem="0iQ-L1-A1G" secondAttribute="centerY" id="yVX-ad-CIr"/>
-                                            </constraints>
-                                        </view>
+                                            <locale key="locale" localeIdentifier="ru"/>
+                                            <connections>
+                                                <action selector="datePickerChanged:" destination="-1" eventType="valueChanged" id="yIw-TO-x6k"/>
+                                            </connections>
+                                        </datePicker>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
@@ -176,7 +142,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fR9-RP-pmY" userLabel="Colors" customClass="TodoColorsView" customModule="TodoList" customModuleProvider="target">
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fR9-RP-pmY" userLabel="Colors" customClass="ColorsStackView" customModule="TodoList" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="283" width="398" height="90"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VqO-Tp-1GT">
@@ -225,7 +191,7 @@
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItT-o6-8OY">
                                                     <rect key="frame" x="0.0" y="15" width="127.33333333333333" height="75"/>
-                                                    <color key="backgroundColor" red="0.36078431372549019" green="0.54509803921568623" blue="0.6588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" name="CustomBlueButton"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="5"/>
@@ -272,11 +238,13 @@
                                     </constraints>
                                     <connections>
                                         <outlet property="firstLine" destination="nDN-xY-zYB" id="Z1W-2S-aD9"/>
+                                        <outlet property="secondButton" destination="ItT-o6-8OY" id="Mut-06-V2U"/>
                                         <outlet property="secondLine" destination="RzW-4H-iFS" id="v9z-YO-ZRQ"/>
+                                        <outlet property="thirdButton" destination="PgJ-fQ-9aJ" id="oNB-Xv-Whs"/>
                                         <outlet property="thirdLine" destination="jeX-iY-GXn" id="g30-Zh-MNc"/>
                                     </connections>
                                 </stackView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apH-Id-4uM">
+                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apH-Id-4uM">
                                     <rect key="frame" x="0.0" y="391" width="398" height="50"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
@@ -292,6 +260,9 @@
                                             <integer key="value" value="10"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="deleteTodoItem:" destination="-1" eventType="touchUpInside" id="PWt-im-TJx"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>
@@ -315,13 +286,10 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.96862745098039216" green="0.96470588235294119" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Zs9-dv-NGF" secondAttribute="trailing" constant="15" id="9yN-Wb-8T8"/>
-                <constraint firstItem="Zs9-dv-NGF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="FEW-GU-HNg"/>
-                <constraint firstItem="rUe-B4-TS8" firstAttribute="leading" secondItem="Zs9-dv-NGF" secondAttribute="leading" id="RNT-WV-hzY"/>
                 <constraint firstItem="AR2-5u-fC0" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="Ux0-fE-850"/>
-                <constraint firstItem="Zs9-dv-NGF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="aNP-gx-YaK"/>
-                <constraint firstItem="AR2-5u-fC0" firstAttribute="top" secondItem="Zs9-dv-NGF" secondAttribute="bottom" constant="15" id="pk7-lL-P6x"/>
-                <constraint firstItem="AR2-5u-fC0" firstAttribute="trailing" secondItem="Zs9-dv-NGF" secondAttribute="trailing" id="vGE-uK-Hwj"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="AR2-5u-fC0" secondAttribute="trailing" constant="15" id="h1g-49-aGe"/>
+                <constraint firstItem="AR2-5u-fC0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="jqy-W6-ZCy"/>
+                <constraint firstItem="AR2-5u-fC0" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="oa9-BR-3Vj"/>
             </constraints>
             <point key="canvasLocation" x="253.73831775700933" y="53.779697624190071"/>
         </view>
@@ -332,6 +300,9 @@
         <image name="star.slash" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBlueButton">
+            <color red="0.36100000143051147" green="0.54500001668930054" blue="0.6589999794960022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
