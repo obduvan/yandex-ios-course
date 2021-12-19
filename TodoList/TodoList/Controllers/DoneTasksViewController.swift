@@ -8,7 +8,7 @@
 import UIKit
 import CocoaLumberjack
 
-protocol DecreaseNumberOfDoneTasksDelegate: AnyObject {
+protocol DoneTaskViewControllerDelegate: AnyObject {
     func decreaseNumberOfDoneTask()
     func createRow()
 }
@@ -20,7 +20,7 @@ class DoneTasksViewController: UIViewController, UITableViewDelegate, UITableVie
     private let identidier = "tasksIdentifier"
     private var chosedIndexTask: IndexPath = [0,0]
     
-    weak var doneTasksDelegate: DecreaseNumberOfDoneTasksDelegate?
+    weak var doneTasksDelegate: DoneTaskViewControllerDelegate?
     
     @IBOutlet private weak var tableView: UITableView!
     

@@ -54,7 +54,7 @@ extension ItemsViewController: ShowDoneTasksDelegate {
     }
 }
 
-extension ItemsViewController: DecreaseNumberOfDoneTasksDelegate {
+extension ItemsViewController: DoneTaskViewControllerDelegate {
     func decreaseNumberOfDoneTask() {
         tablerViewHeader.updateNumberOfDoneTasks(number: -1)
     }
