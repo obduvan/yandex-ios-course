@@ -7,49 +7,122 @@
 
 import UIKit
 
+protocol ChangeTaskDelegate: AnyObject {
+    func updateTask(_ newTodoItem: TodoItem)
+    
+    func deleteTask(_ todoItem: TodoItem)
+}
+
+protocol CreateTaskDelegate: AnyObject {
+    func addTask(_ todoItem: TodoItem)
+}
+
 final class TodoViewController: UIViewController {
     
     @IBOutlet private weak var datePicker: UIDatePicker!
     @IBOutlet private weak var scrollView: UIScrollView!
-    @IBOutlet private weak var todoDescription: UITextView!
-    
-    @IBOutlet private weak var datePickerView: UIView!
     @IBOutlet private weak var dateDivider: UIView!
+    @IBOutlet private weak var dateSwitcher: UISwitch!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deletingButton: UIButton!
+    @IBOutlet private weak var importanceSwitcher: UISegmentedControl!
     
-    @IBOutlet private weak var colorsStackView: TodoColorsView!
+    @IBOutlet private weak var colorsStackView: ColorsStackView!
     @IBOutlet private weak var todoDescriptionView: TodoDescriptionView!
-
     
-    private let keyboardIndent: CGFloat = 30
-    private var chosedColor: UIColor = .white
-    private var descriptionTodo: String = ""
     private let deletingButtonStateOn: UIColor = .red
     private let deletingButtonStateOff: UIColor = .lightGray
-
+    private let keyboardIndent: CGFloat = 30
+    
+    private var todoItem: TodoItem?
+    private var chosedColor: UIColor?
+    private var importance: Importance = .notImportant
+    private var deadline: Date?
+    private var descriptionTodo: String = ""
+    
+    weak var changeTaskDelegate: ChangeTaskDelegate?
+    weak var createTaskDelegate: CreateTaskDelegate?
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(_ todoItem: TodoItem?) {
+        self.todoItem = todoItem
+        
+        super.init(nibName: nil, bundle: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setKeyboardObervers()
         colorsStackView.delegate = self
-        todoDescriptionView.descriptionDelegate = self
         
-        dateLabel.text = formatDate(datePicker)
+        setBarItems()
+        setKeyboardObervers()
+        setTodoData()
     }
-
-    @IBAction func dateClicked(_ sender: Any) {
-        UIView.animate(withDuration: 0.3, animations: {
-            
-            if self.datePickerView.isHidden {
-                self.datePickerView.isHidden = false
-                self.setDateLabel(dateString: self.dateLabel.text ?? "")
+    
+    private func setTodoData() {
+        guard let todoItem = self.todoItem else {
+            dateLabel.text = formatDate(datePicker.date)
+            return
+        }
         
+        todoDescriptionView.initDescription(text: todoItem.text)
+        
+        if let newDeadline = todoItem.deadLine {
+            dateLabel.text = formatDate(newDeadline)
+            setStateOfDateLabel(close: false)
+            datePicker.date = newDeadline
+            deadline = newDeadline
+            dateSwitcher.isOn = true
+            datePicker.isHidden = false
+            dateDivider.isHidden = false
+        }
+        
+        importance = todoItem.importance
+        
+        switch todoItem.importance {
+        case .important:
+            importanceSwitcher.selectedSegmentIndex = 2
+        case .regular:
+            importanceSwitcher.selectedSegmentIndex = 1
+        case .notImportant:
+            importanceSwitcher.selectedSegmentIndex = 0
+        }
+        
+        if let color = todoItem.color {
+            colorsStackView.initColorLines(color)
+        }
+        
+        setStateOfDeletingButton()
+    }
+    
+    private func setStateOfDeletingButton() {
+        deletingButton.isEnabled = true
+        deletingButton.setTitleColor(deletingButtonStateOn, for: .normal)
+    }
+    
+    private func setBarItems() {
+        navigationItem.largeTitleDisplayMode = .never
+        
+        let rightButton = UIBarButtonItem(title: "Сохранить", style: .done, target: self, action: #selector(saveTodoItem))
+        navigationItem.setRightBarButton(rightButton, animated: true)
+        navigationItem.title = "Дело"
+    }
+    
+    @IBAction func openDatePicker(_ sender: Any) {
+        UIView.animate(withDuration: 0.3, animations: {
+            if self.datePicker.isHidden {
+                self.datePicker.isHidden = false
+                self.setDate(date: self.datePicker.date)
+                self.deadline = self.datePicker.date
             }
             else {
-                self.datePickerView.isHidden = true
-                self.setDateLabelState(close: true)
+                self.datePicker.isHidden = true
+                self.setStateOfDateLabel(close: true)
+                self.deadline = nil
             }
         })
         dateDivider.isHidden = !dateDivider.isHidden
@@ -57,60 +130,82 @@ final class TodoViewController: UIViewController {
     
     
     @IBAction func datePickerChanged(_ sender: UIDatePicker) {
-
-        let dateString = self.formatDate(sender)
-        setDateLabel(dateString: dateString)
+        deadline = sender.date
+        setDate(date: sender.date)
     }
     
-    private func formatDate(_ date: UIDatePicker) -> String {
+    private func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru_RU")
         dateFormatter.dateFormat = "d MMMM YYYY"
-        return dateFormatter.string(from: date.date)
+        return dateFormatter.string(from: date)
     }
     
-    private func setDateLabelState(close: Bool) {
+    private func setStateOfDateLabel(close: Bool) {
         self.dateLabel.isHidden = close
     }
     
-    private func setDateLabel(dateString: String) {
-        guard !dateString.isEmpty else { return }
+    private func setDate(date: Date) {
+        let dateString = self.formatDate(date)
         
-        setDateLabelState(close: false)
+        setStateOfDateLabel(close: false)
         dateLabel.text = dateString
     }
     
-    @IBAction func buttonCloseClocked(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    @IBAction func switchImportance(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 2:
+            importance = .important
+        case 1:
+            importance = .regular
+        default:
+            importance = .notImportant
+        }
     }
     
-    private func changeButtonDeletingState() {
-        if descriptionTodo.isEmpty{
-            self.deletingButton.setTitleColor(deletingButtonStateOff, for: .normal)
+    @IBAction func deleteTodoItem(_ sender: Any) {
+        guard let todoItem = self.todoItem else { return }
+        
+        changeTaskDelegate?.deleteTask(todoItem)
+        
+        closeTodoView()
+    }
+    
+    @objc private func saveTodoItem() {
+        setDescription()
+        
+        let newTodoItem = TodoItem(text: descriptionTodo, importance: importance, deadLine: deadline, color: chosedColor)
+        
+        if self.todoItem != nil {
+            changeTaskDelegate?.updateTask(newTodoItem)
         }
         else {
-            self.deletingButton.setTitleColor(deletingButtonStateOn, for: .normal)
+            createTaskDelegate?.addTask(newTodoItem)
+        }
+        
+        closeTodoView()
+    }
+    
+    private func setDescription() {
+        if todoDescriptionView.textColor == .lightGray {
+            descriptionTodo = "Пустое дело"
+        }
+        else {
+            descriptionTodo = todoDescriptionView.text
         }
     }
+    
+    private func closeTodoView() {
+        navigationController?.popViewController(animated: true)
+    }
 }
-
 
 
 extension TodoViewController: ColorsViewDelegate {
     func setChosedColor(color: UIColor) {
-        
         self.chosedColor = color
     }
 }
-
-
-extension TodoViewController: DescriptionViewDelegate {
-    func setDescription(_ description: String) {
-        self.descriptionTodo = description
-        self.changeButtonDeletingState()
-    }
-}
-
 
 
 extension TodoViewController {

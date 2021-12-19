@@ -9,30 +9,22 @@ import UIKit
 import Foundation
 
 
-protocol DescriptionViewDelegate {
-    func setDescription(_ description: String)
-}
-
-
 class TodoDescriptionView: UITextView, UITextViewDelegate {
     
     private let placeholder = "Описание дела"
     private let padding: CGFloat = 10
     private let maxLinesDescription: Int = 20
-    private var descriptionTodo: String = ""
-
-    var descriptionDelegate: DescriptionViewDelegate?
-    
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         delegate = self
         setupDescription()
+    }
+    
+    func initDescription(text: String) {
+        self.text = text
+        self.textColor = .black
     }
     
     private func setupDescription() {
@@ -44,16 +36,16 @@ class TodoDescriptionView: UITextView, UITextViewDelegate {
         }
     }
     
-    var numberOfCurrentlyDisplayedLines: Int {
+    private var numberOfCurrentlyDisplayedLines: Int {
         let size = self.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         
         return Int(((size.height - self.layoutMargins.top - self.layoutMargins.bottom) /
                         self.font!.lineHeight))
     }
-
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .lightGray {
-            textView.text = nil
+            textView.text = ""
             textView.textColor = .black
         }
     }
@@ -62,13 +54,8 @@ class TodoDescriptionView: UITextView, UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = placeholder
             textView.textColor = .lightGray
-            descriptionTodo = ""
-        }
-        else{
-            descriptionTodo = textView.text
         }
         
-        descriptionDelegate?.setDescription(descriptionTodo)
         textView.resignFirstResponder()
     }
     
@@ -76,7 +63,7 @@ class TodoDescriptionView: UITextView, UITextViewDelegate {
         removeTextUntilSatisfying(maxNumberOfLines: maxLinesDescription)
     }
     
-    func removeTextUntilSatisfying(maxNumberOfLines: Int) {
+    private func removeTextUntilSatisfying(maxNumberOfLines: Int) {
         while numberOfCurrentlyDisplayedLines > maxNumberOfLines {
             self.text = String(self.text.dropLast())
             self.layoutIfNeeded()
